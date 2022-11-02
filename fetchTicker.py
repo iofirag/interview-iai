@@ -5,7 +5,7 @@ import fileHandler
 from datetime import datetime
 
 
-def tickerHandler(tickerObj, config):
+def tickerHandler(tickerObj: dict, config: dict):
     tickerShots = []
     lastFileWrite = datetime.now()
     while (True):

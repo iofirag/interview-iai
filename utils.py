@@ -1,26 +1,26 @@
+import os
 import json
 import numpy as np
 import pandas as pd
 from fastparquet import write
-import os
 
 
-def writeParquetFile(df, path, fileName):
+def writeParquetFile(df: pd.DataFrame.dtypes, path: str, fileName: str):
     write(path + '/' + fileName + '.parq', df)
 
 
-def readJsonFile(path):
+def readJsonFile(path: str):
     f = open(path)
     jsonContent = json.load(f)
     f.close()
     return jsonContent
 
 
-def arrayToDF(arr):
+def arrayToDF(arr: list[dict], columns: list[str]):
     np_arr = np.array(arr)
-    return pd.DataFrame(np_arr, columns=['open'])
+    return pd.DataFrame(np_arr, columns=columns)
 
 
-def validateDirPath(path):
+def validateDirPath(path: str):
     if not os.path.exists(path):
         os.makedirs(path)

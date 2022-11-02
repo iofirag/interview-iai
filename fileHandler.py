@@ -1,8 +1,9 @@
 import utils
+import datetime
 
 
-def handlerWriteParquetFile(arrData, newDt, folderNameFormat, outputDir, tickerObj, threadId):
-    np_df = utils.arrayToDF(arrData)
+def handlerWriteParquetFile(arrData: list[dict], newDt: datetime, folderNameFormat: str, outputDir: str, tickerObj: dict, threadId: int):
+    np_df = utils.arrayToDF(arrData, ['open'])
     folderName = newDt.strftime(folderNameFormat)
     path = '%s/%s' % (outputDir, folderName)
     utils.validateDirPath(path)

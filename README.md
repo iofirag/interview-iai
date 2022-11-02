@@ -1,2 +1,2 @@
-For running this project, run:
+For running this project, run:  
 py index.py

@@ -2,29 +2,23 @@ import threading
 import yfinance as yf
 import time
 import fileHandler
-from datetime import datetime
 
 
-def tickerHandler(tickerObj: dict, config: dict):
+def tickerHandler(data, shared_data):
     tickerShots = []
-    lastFileWrite = datetime.now()
+    while (not shared_data['latest_folder_path']):
+        time.sleep(1)
     while (True):
-        tickerRes = yf.Ticker(tickerObj['name'])
-        newDt = datetime.now().replace(second=0, microsecond=0)
+
+        tickerRes = yf.Ticker(data['name'])
         # store data
         tickerShots.append({'open': tickerRes.info['open']})
 
-        # check wether passed time divide to seconds bigger than zero
-        diff = int(round(newDt.timestamp() - lastFileWrite.timestamp()))
-        if (diff // config["fileWriteFreqSeconds"] > 0):
-            threadId = threading.current_thread().ident
+        # append thread data to file
+        threadId = threading.current_thread().ident
+        fileHandler.handlerWriteParquetFile(
+            tickerShots, shared_data["latest_folder_path"], data['name'], threadId)
 
-            # save thread data to file
-            fileHandler.handlerWriteParquetFile(
-                tickerShots, newDt, config["folderNameFormat"],
-                config["outputDir"], tickerObj, threadId)
-
-            # clean thread data
-            tickerShots = []
-            lastFileWrite = newDt
-        time.sleep(tickerObj['freq'])
+        # clean thread data
+        tickerShots = []
+        time.sleep(data['freq'])

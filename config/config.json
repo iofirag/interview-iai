@@ -1,5 +1,5 @@
 {
-    "fileWriteFreqSeconds": 120,
+    "fileWriteFreqSeconds": 60,
     "outputDir": "out",
     "folderNameFormat": "Date (%d%m%Y_%H_%M_%S)"
 }

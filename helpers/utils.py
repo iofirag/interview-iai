@@ -6,7 +6,9 @@ from fastparquet import write
 
 
 def writeParquetFile(df: pd.DataFrame.dtypes, path: str, fileName: str):
-    write(path + '/' + fileName + '.parq', df)
+    full_file_path = path + '/' + fileName + '.parq'
+    append = os.path.exists(full_file_path)
+    write(full_file_path, df, append=append, mkdirs=True)
 
 
 def readJsonFile(path: str):

@@ -1,7 +1,7 @@
 import threading
 import yfinance as yf
 import time
-import fileHandler
+from .fileHandler import handlerWriteParquetFile
 
 
 def tickerHandler(data, shared_data):
@@ -16,8 +16,10 @@ def tickerHandler(data, shared_data):
 
         # append thread data to file
         threadId = threading.current_thread().ident
-        fileHandler.handlerWriteParquetFile(
-            tickerShots, shared_data["latest_folder_path"], data['name'], threadId)
+        handlerWriteParquetFile(
+            tickerShots,
+            shared_data["latest_folder_path"],
+            data['name'], threadId)
 
         # clean thread data
         tickerShots = []

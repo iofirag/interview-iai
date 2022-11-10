@@ -1,11 +1,7 @@
 import threading
-import sys
-sys.path.insert(1, 'helpers')
-sys.path.insert(1, 'services')
-from fetchTicker import tickerHandler
-from fileHandler import folderFreqCreationHandler
-from utils import readJsonFile
-
+from helpers.utils import readJsonFile
+from services.fileHandler import folderFreqCreationHandler
+from services.fetchTicker import tickerHandler
 
 if __name__ == "__main__":
     config = readJsonFile('./config/config.json')
@@ -19,8 +15,9 @@ if __name__ == "__main__":
         "outputDir": config["outputDir"],
         "folderNameFormat": config["folderNameFormat"],
     }
-    folderFreqCreationThread = threading.Thread(target=folderFreqCreationHandler, args=(
-        folderFreqCreationThreadData, shared_data))
+    folderFreqCreationThread = threading.Thread(
+        target=folderFreqCreationHandler, args=(
+            folderFreqCreationThreadData, shared_data))
     folderFreqCreationThread.start()
 
     for tickerObj in tickerList:
